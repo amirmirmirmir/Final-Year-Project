@@ -10,5 +10,5 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    path: /srv/nfs/mediawiki
-    server: 192.168.56.5
+    path: <NFS_PATH>
+    server: <NFS_IP_ADDRESS>
