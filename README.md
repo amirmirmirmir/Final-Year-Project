@@ -140,6 +140,7 @@ kubectl get pods -w
 ```bash
 kubectl get hpa -w
 ```
+If percentages do not have an actual value, for example if using VirtualBox as your infrastructure, the Metrics-Server configuration should be modified to do so, however if you are using mine this should already be rectified 
 
 ---
 
