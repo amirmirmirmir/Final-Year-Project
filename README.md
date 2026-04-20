@@ -1,6 +1,7 @@
 # Kubernetes MediaWiki Deployment (Final Year Project)
 
 This repository contains the Kubernetes manifests used to deploy a scalable **MediaWiki** application, including database, storage, monitoring, and testing configurations.
+Due to the nature of the project, this repository exists mostly to provide my Supervisor with a means to look at the YAML and Python files created for the project as implementing this in its entirety is known to be a huge task in itself
 
 ---
 
