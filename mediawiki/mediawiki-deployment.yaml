@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediawiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mediawiki
+  template:
+    metadata:
+      labels:
+        app: mediawiki
+    spec:
+      containers:
+      - name: mediawiki
+        image: mediawiki:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: MEDIAWIKI_DB_HOST
+          value: "mariadb-service"
+        - name: MEDIAWIKI_DB_USER
+          value: "wikiuser"
+        - name: MEDIAWIKI_DB_PASSWORD
+          value: "wikipassword123"
+        - name: MEDIAWIKI_DB_NAME
+          value: "mediawikidb"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /var/www/html/LocalSettings.php
+          subPath: LocalSettings.php
+      volumes:
+      - name: config-volume
+        configMap:
+          name: mediawiki-config

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mariadb
+        image: mariadb:10.11
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          value: "rootpassword123"
+        - name: MARIADB_DATABASE
+          value: "mediawikidb"
+        - name: MARIADB_USER
+          value: "wikiuser"
+        - name: MARIADB_PASSWORD
+          value: "wikipassword123"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mariadb-storage
+          mountPath: /var/lib/mysql
+      volumes: 
+      - name: mariadb-storage
+        persistentVolumeClaim:
+          claimName: nfs-pvc
