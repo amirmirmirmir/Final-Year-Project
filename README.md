@@ -102,6 +102,9 @@ You should then be able to delete and repdeploy MediaWiki with data persistence.
 
 ###  4. Monitoring Setup (Metrics Server)
 
+It is recommended here to install Prometheus and Grafana onto your own cluster through Helm using the appropriate installation for your device
+For the scope of the infrastucture, it is also recommend to turn off persistentVolumes for the server and alertmanager for Prometheus and Grafana when creating the monitoring namespace 
+
 Required for autoscaling:
 
 ```bash
@@ -129,6 +132,10 @@ kubectl autoscale deployment mediawiki \
 ```
 
 Monitor scaling:
+
+```bash
+kubectl get pods -w
+```
 
 ```bash
 kubectl get hpa -w
