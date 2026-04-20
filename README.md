@@ -4,19 +4,20 @@ This repository contains the Kubernetes manifests used to deploy a scalable **Me
 
 ---
 
-## 📌 Prerequisites
+## Prerequisites
 
 Before deploying, ensure you have:
 
-* A working Kubernetes cluster
+* A working Kubernetes cluster set up with 4 components, 1 Master Node, 2 Worker Nodes and an NFS Server acting as storage
 * Networking configured (CNI plugin installed)
-* `kubectl` installed and configured
-* Access to worker nodes
-* Metrics Server support (required for HPA)
+* Minimum of 2 CPUs and 4GB of Ram per Node
+* Replace yaml files where appropriate with your respective parameters, for example the NFS Server IP address in nfs-pv.yaml
+* Ensure your cluster works if you haven't with the basic Nginx application deployment.
+
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Final-Year-Project/
@@ -33,6 +34,8 @@ Final-Year-Project/
 ├── testing/
 │   ├── nginx-deployment.yaml
 │   └── nginx-service.yaml
+│   └── locustfile.py
+
 ├── monitoring/
 │   └── metrics-server.yaml
 └── README.md
@@ -40,9 +43,9 @@ Final-Year-Project/
 
 ---
 
-## 🚀 Deployment Steps (Order Matters)
+##  Deployment Steps in order
 
-### 🟢 1. Storage Configuration
+###  1. Storage Configuration
 
 Create persistent storage for the database:
 
@@ -51,10 +54,11 @@ kubectl apply -f storage/nfs-pv.yaml
 kubectl apply -f storage/nfs-pvc.yaml
 kubectl apply -f storage/nfs-test-pod.yaml
 ```
+Following the deployment of the nfs-test pod you should be able to Cat the file defined in it to verify if it worked correctly and then delete the deployment if you want.
 
 ---
 
-### 🟢 2. Database Deployment (MariaDB)
+###  2. Database Deployment (MariaDB)
 
 Deploy the database backend:
 
@@ -72,7 +76,7 @@ kubectl get svc
 
 ---
 
-### 🟢 3. MediaWiki Deployment
+###  3. MediaWiki Deployment
 
 Deploy the MediaWiki application:
 
@@ -80,10 +84,22 @@ Deploy the MediaWiki application:
 kubectl apply -f mediawiki/mediawiki-deployment.yaml
 kubectl apply -f mediawiki/mediawiki-service.yaml
 ```
+Once MediaWiki is deployed, complete the setup for the application and create a ConfigMap using:
+
+```bash
+kubectl create configmap mediawiki-config --from-file=LocalSettings.php
+```
+Verify with:
+
+```bash
+kubectl get configmaps
+```
+Following this update the mediawiki-deployment.yaml file to ensure it fits your ConfigMap.
+You should then be able to delete and repdeploy MediaWiki with data persistence.
 
 ---
 
-### 🟢 4. Monitoring Setup (Metrics Server)
+###  4. Monitoring Setup (Metrics Server)
 
 Required for autoscaling:
 
@@ -100,18 +116,7 @@ kubectl top pods
 
 ---
 
-### 🟢 5. Testing Deployment (Optional)
-
-Used for validating networking and load testing:
-
-```bash
-kubectl apply -f testing/nginx-deployment.yaml
-kubectl apply -f testing/nginx-service.yaml
-```
-
----
-
-## 📈 Horizontal Pod Autoscaling (HPA)
+##  Horizontal Pod Autoscaling (HPA)
 
 Enable autoscaling for MediaWiki:
 
@@ -130,13 +135,14 @@ kubectl get hpa -w
 
 ---
 
-## 🧪 Load Testing
+##  Load Testing
 
-Load testing was conducted using **Locust**, simulating multiple concurrent users interacting with the MediaWiki service.
+Load testing can be conducted using the Locust file, install Locust on your host machine.
+CD into the directory of the Locust file, run locust in the terminal and run tests directed towards the IP address of your deployed MediaWiki
 
 ---
 
-## 📊 Features Demonstrated
+##  Features Demonstrated
 
 * Kubernetes container orchestration
 * Horizontal Pod Autoscaling (HPA)
@@ -146,7 +152,7 @@ Load testing was conducted using **Locust**, simulating multiple concurrent user
 
 ---
 
-## ⚠️ Notes
+##  Notes
 
 This deployment was tested in a **local virtualised environment**, meaning:
 
@@ -156,17 +162,14 @@ This deployment was tested in a **local virtualised environment**, meaning:
 
 ---
 
-## 🔮 Future Improvements
+##  Future Improvements
 
 * Deploy in a **cloud environment (AWS / Azure / GCP)**
 * Implement **Pod Anti-Affinity** for better workload distribution
 * Separate the **database onto a dedicated node**
 * Increase available **CPU and memory resources**
-* Implement **cluster autoscaling**
-* Use more advanced **distributed storage solutions**
+
 
 ---
 
-## 👨‍💻 Author
-
-Final Year Project – Kubernetes-based MediaWiki Deployment
+Mohammad Bari - Final Year Project – Kubernetes-based MediaWiki Deployment
