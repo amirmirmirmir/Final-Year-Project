@@ -55,7 +55,7 @@ kubectl apply -f storage/nfs-pv.yaml
 kubectl apply -f storage/nfs-pvc.yaml
 kubectl apply -f storage/nfs-test-pod.yaml
 ```
-Following the deployment of the nfs-test pod you should be able to Cat the file defined in it to verify if it worked correctly and then delete the deployment if you want.
+Following the deployment of the nfs-test pod you should be able to Cat the file defined in it to verify if it worked correctly and then delete the deployment if you want. You will also need to update any relevant IP addresses with your own configurations
 
 ---
 
