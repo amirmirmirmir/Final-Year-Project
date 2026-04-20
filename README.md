@@ -149,6 +149,7 @@ If percentages do not have an actual value, for example if using VirtualBox as y
 Load testing can be conducted using the Locust file, install Locust on your host machine.
 CD into the directory of the Locust file, run locust in the terminal and run tests directed towards the IP address of your deployed MediaWiki
 If the monitoring stack was setup, this should provide you with test results for your cluster
+
 ---
 
 ##  Features Demonstrated
