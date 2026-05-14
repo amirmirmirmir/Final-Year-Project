@@ -14,6 +14,7 @@ Before deploying, ensure you have:
 * Minimum of 2 CPUs and 4GB of Ram per Node
 * Replace yaml files where appropriate with your respective parameters, for example the NFS Server IP address in nfs-pv.yaml
 * Ensure your cluster works if you haven't with the basic Nginx application deployment.
+* NOTE IN THE MEDIAWIKI DEPLOYMENT YAML THE REPLICAS ARE SET TO 1, FEEL FREE TO CHANGE THIS TO HOW MANY YOU'D LIKE PREFERABLY 2.
 
 
 ---
